@@ -9,7 +9,6 @@
 #include <string.h>
 
 void set(double* x, double* y, int s);
-void zero(double **a, int n);
 
 
 int main(int argc, char **argv) {
@@ -23,15 +22,30 @@ int main(int argc, char **argv) {
 	double x[n], f[n];
 	set(x, f, station);
 	
-	double **Q;
-	zero(Q, n);
+	double Q[n][n];
+	for(int i = 0; i < n; i++) {
+		for(int j = 0; j < n; j++) {
+			Q[i][j] = 0;
+			
+		}
+	}
 	
 	//Neville's Method
+	//initializing Q[0...n][0]
+	for(int i = 0; i < n; i++) {
+		Q[i][0] = f[i];
+	}
+	//continuing with approximation
+	for(int i = 1; i < n; i++) {
+		printf("%g ", Q[i][0]);
+		for(int j = 1; j <= i; j++) {
+			Q[i][j] = (((p-x[i-j]) * Q[i][j-1]) - ((p - x[i]) * Q[i-1][j-1]))/(x[i] - x[i-j]);
+			printf("%g ", Q[i][j]);
+		}
+		printf("\n");
+	}
 	
-	
-	
-	printf("\tWeather Station %d PM 2.5 at T = %g:\n", station, p);
-	printf("\t\t P_%d(17) = %g\n", n, Q[n-1][n-1]);
+	printf("Weather Station %d PM 2.5 at T = %g ~= %g\n", station, p, Q[n-1][n-1]);
 	
 	return 0;
 }
@@ -59,17 +73,5 @@ void set(double* x, double* f, int s) {
 				memcpy(f, f5, sizeof(f5)); break;
 		case 6: memcpy(x, x6, sizeof(x6));
 				memcpy(f, f6, sizeof(f6)); break;
-	}
-}
-
-void zero(double **a, int n) {
-	a = (double**)malloc(n * sizeof(double*));
-	for(int i = 0; i < n; i++) {
-		a[i] = (double*)malloc(n * sizeof(double));
-	}
-	for(int r = 0; r < n; r++) {
-		for(int c = 0; c < n; c++) {
-			a[r][c] = 0;
-		}
 	}
 }
