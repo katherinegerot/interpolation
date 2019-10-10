@@ -12,7 +12,7 @@ void set(double* x, double* y, int s);
 
 int main(int argc, char **argv) {
 	int n = 4, station = atoi(argv[1]);
-	double sum, p = atof(argv[2]);
+	double p = atof(argv[2]);
 	
 	switch(station) {
 		case 1:	case 2: n = 9; break;
