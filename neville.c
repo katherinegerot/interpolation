@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 		printf("%g ", Q[i][0]);
 		for(int j = 1; j <= i; j++) {
 			Q[i][j] = (((p-x[i-j]) * Q[i][j-1]) - ((p - x[i]) * Q[i-1][j-1]))/(x[i] - x[i-j]);
-			printf("%g ", Q[i][j]);
+			printf("%10g ", Q[i][j]);
 		}
 		printf("\n");
 	}
