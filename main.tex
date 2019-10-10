@@ -1,0 +1,360 @@
+\documentclass{exam}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{textcomp}
+
+
+\title{Assignment 02 - CSCE 440/840}
+\author{Katie Gerot: 79862841}
+\date{October, 9 2019}
+
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+    \item For Questions 1-4, use Table Particulate Matter. Atmospheric particulate matter are microscopic matter suspended in the air. In particular, particular matter with a mean diameter of 2.5 $\mu m$ (PM 2.5) or less causes many health problems because it can easily get into the lungs.  In the United States the EPA set a limit of 35 $\mu g/m^3$.  daily average.  Hence many weather stations are monitoring the  concentration  of  particle  matter  with  PM  2.5  or  less. Table  Particulate Matter shows a set of four weather stations, where SN is the station identification number, T is time in days and PM is the particulate matter per day in $g/m^3$.  Show all the calculation steps.
+    \begin{enumerate}
+        \item Find the Lagrange interpolating polynomial for the 4th station.  Use the Lagrange interpolating polynomial to estimate the PM 2.5 of the 4th weather station at T = 17.
+        \begin{align*}
+            L_0(x)  &= \frac{(x-x_1)(x-x_2)(x-x_3)}{(x_0-x_1)(x_0-x_2)(x_0-x_3)}&   L_1(x)  &= \frac{(x-x_0)(x-x_2)(x-x_3)}{(x_1-x_0)(x_1-x_2)(x_1-x_3)}\\
+                    &= \frac{(x-14)(x-21)(x-28)}{(7-14)(7-21)(7-28)}            &           &= \frac{(x-7)(x-21)(x-28)}{(14-7)(14-21)(14-28)}\\
+                    &= \frac{1}{-2058}(x-14)(x-21)(x-28)                        &           &= \frac{1}{686}(x-7)(x-21)(x-28)\\
+            L_2(x)  &= \frac{(x-x_0)(x-x_1)(x-x_3)}{(x_2-x_0)(x_2-x_1)(x_2-x_3)}&   L_3(x)  &= \frac{(x-x_0)(x-x_1)(x-x_2)}{(x_3-x_0)(x_3-x_2)(x_3-x_2)}\\
+                    &= \frac{(x-7)(x-14)(x-28)}{(21-7)(21-14)(21-28)}           &           &= \frac{(x-7)(x-14)(x-21)}{(28-7)(28-14)(28-21)}\\
+                    &= \frac{1}{-686}(x-7)(x-14)(x-28)                          &           &= \frac{1}{2058}(x-7)(x-14)(x-21)
+        \end{align*}
+        \begin{align*}
+            P_3(x)  =& L_0(x)f(x_0) + L_1(x)f(x_1) + L_2(x)f(x_2) + L_3(x)f(x_3)\\
+                    =& \frac{32}{-2058}(x-14)(x-21)(x-28)\\
+                    &   + \frac{34}{686}(x-7)(x-21)(x-28)\\
+                    &  + \frac{36}{-686}(x-7)(x-14)(x-28)\\
+                    &   + \frac{35}{2058}(x-7)(x-14)(x-21)\\
+                    =& \frac{-x^3+42x^2-343x+22638}{686}\\
+            P_3(17) =& \frac{-(17)^3+42(17)^2-343(17)+22638}{686}\\
+                    =& \frac{12016}{343} \approx \mathbf{35.032}
+        \end{align*}
+        \newpage
+        \item Use  Neville's  Method  to  estimate  the  PM  2.5  of  the  4th weather station at T = 12.
+        \newline
+        \begin{minipage}{0.3\textwidth}
+            \begin{equation*}
+                \begin{array}{ccc}
+                    i & x_i & f(x_i)\\\hline
+                    0 & 7   & 32\\
+                    1 & 14  & 34\\
+                    2 & 21  & 36\\
+                    3 & 28  & 35
+                \end{array}
+            \end{equation*}
+        \end{minipage}
+        \begin{minipage}{0.7\textwidth} 
+            \begin{align*}
+                f(12) \approx P_0(12) = f(x_0) &= 32\\
+                f(12) \approx P_1(12) = f(x_1) &= 34\\
+                f(12) \approx P_2(12) = f(x_2) &= 36\\
+                f(12) \approx P_3(12) = f(x_3) &= 35
+            \end{align*}
+        \end{minipage}
+        \begin{minipage}{0.2\textwidth}
+            \begin{equation*}
+            \begin{array}{cccc}
+                i & x_i & P_i& P_{i,i-1}\\\hline
+                0 & 7   & 32\\
+                1 & 14  & 34 & 33.429\\
+                2 & 21  & 36 & 33.429\\
+                3 & 28  & 35 & 38.143
+            \end{array}
+        \end{equation*}
+        \end{minipage}
+        \begin{minipage}{0.8\textwidth} 
+            \begin{align*}
+                f(12) \approx P_{0,1}(12) =& \frac{(12-x_1)P_0(12)-(12-x_0)P_1(12)}{x_0-x_1}\\
+                =&\frac{(12-14)32-(12-7)34}{7-14}\approx 33.429\\
+                f(12) \approx P_{1,2}(12) =& \frac{(12-x_2)P_1(12)-(12-x_1)P_2(12)}{x_1-x_2}\\
+                =&\frac{(12-21)34-(12-14)36}{14-21}\approx 33.429\\
+                f(12) \approx P_{2,3}(12) =& \frac{(12-x_3)P_2(12)-(12-x_2)P_3(12)}{x_2-x_3}\\
+                =&\frac{(12-28)36-(12-21)35}{21-28}\approx 38.143
+            \end{align*}
+        \end{minipage}
+        \begin{align*}
+            f(12) \approx P_{0,1,2}(12) =& \frac{(12-x_2)P_{0,1}(12)-(12-x_0)P_{1,2}(12)}{x_0-x_2}\\
+            =& \frac{(12-21)33.429-(12-7)33.429}{7-21}\approx 33.429\\
+            f(12) \approx P_{0,1,2}(12) =& \frac{(12-x_3)P_{1,2}(12)-(12-x_1)P_{2,3}(12)}{x_1-x_3}\\
+            =&\frac{(12-28)33.429-(12-14)38.143}{14-28}\approx 32.756
+        \end{align*}
+        \begin{equation*}
+            \begin{array}{ccccc}
+                i & x_i & P_i & P_{i,i-1} & P_{i,i-1,i-2}\\\hline
+                0 & 7   & 32\\
+                1 & 14  & 34  & 33.429\\
+                2 & 21  & 36  & 33.429    & 33.429\\
+                3 & 28  & 35  & 38.143    & 32.756
+            \end{array}
+        \end{equation*}
+        \begin{align*}
+            f(12) \approx P_{0,1,2,3}(12) &= \frac{(12-x_3)P_{0,1,2}(12)-(12-x_0)P_{1,2,3}(12)}{x_0-x_3}\\
+            &= \frac{(12-28)33.429-(12-7)32.756}{7-28}\approx 33.269
+        \end{align*}
+        \begin{equation*}
+            \begin{array}{cccccc}
+                i & x_i & P_i & P_{i,i-1} & P_{i,i-1,i-2} & P_{i,...,i-3}\\\hline
+                0 & 7   & 32\\
+                1 & 14  & 34  & 33.429\\
+                2 & 21  & 36  & 33.429    & 33.429\\
+                3 & 28  & 35  & 38.143    & 32.756        & 33.269
+            \end{array}
+        \end{equation*}
+        \begin{equation*}
+            f(12) \approx \mathbf{33.269}
+        \end{equation*}
+        \newpage
+        \item Use Newton's Divided Differences Method to find the interpolating polynomial for the 4th weather station. Use the Newton interpolating polynomial to estimate the PM 2.5 of the 4th weather station at T= 10.
+        \newline
+        \begin{minipage}{0.25\textwidth}
+            \begin{equation*}
+                \begin{array}{ccc}
+                    i & x_i & f[x_i]\\\hline
+                    0 & 7   & 32\\
+                    1 & 14  & 34\\
+                    2 & 21  & 36\\
+                    3 & 28  & 35
+                \end{array}
+            \end{equation*}
+        \end{minipage}
+        \begin{minipage}{0.1\textwidth} 
+            \begin{align*}
+                f[x_0] = 32\\
+                f[x_1] = 34\\
+                f[x_2] = 36\\
+                f[x_3] = 35
+            \end{align*}
+        \end{minipage}
+        \begin{minipage}{0.65\textwidth}
+            \begin{align*}
+                f[x_0,x_1,...,x_i] =& \frac{f[x_1,...,x_i] - f[x_0,...,x_{i-1}]}{x_i-x_0}\\
+            \end{align*}
+        \end{minipage}
+        \begin{minipage}{0.3\textwidth}
+            \begin{equation*}
+                \begin{array}{cccc}
+                    i & x_i & f[x_i]&f[x_i,x_{i+1}]\\\hline
+                    0 & 7   & 32\\
+                      &     &       & .2857\\
+                    1 & 14  & 34    &  \\
+                      &     &       & .2857\\
+                    2 & 21  & 36    &  \\
+                      &     &       & -.1429\\
+                    3 & 28  & 35
+                \end{array}
+            \end{equation*}
+        \end{minipage}
+        \begin{minipage}{0.7\textwidth} 
+            \begin{align*}
+                f[x_0,x_1] = \frac{f[x_1] - f[x_0]}{x_1-x_0} = \frac{34-32}{14-7} &\approx .2857\\
+                f[x_1,x_2] = \frac{f[x_2] - f[x_1]}{x_2-x_1} = \frac{36-34}{21-14} &\approx .2857\\
+                f[x_2,x_3] = \frac{f[x_3] - f[x_2]}{x_3-x_2} = \frac{35-36}{28-21} &\approx -.1429\\
+            \end{align*}
+        \end{minipage}
+        \begin{minipage}{0.415\textwidth}
+            \begin{equation*}
+                \begin{array}{ccccc}
+                    i & x_i & f[x_i]&f[x_i,x_{i+1}] &f[x_i,...,x_{i+2}]\\\hline
+                    0 & 7   & 32    \\
+                      &     &       & .2857\\
+                    1 & 14  & 34    &               & 0\\
+                      &     &       & .2857         \\
+                    2 & 21  & 36    &               & -.03061\\
+                      &     &       & -.1429\\
+                    3 & 28  & 35
+                \end{array}
+            \end{equation*}
+        \end{minipage}
+        \begin{minipage}{0.585\textwidth} 
+            \begin{align*}
+                f[x_0,...,x_2]  =& \frac{f[x_1,x_2] - f[x_0,x_1]}{x_2-x_0} \\
+                                =& \frac{.2857-.2857}{21-7} = 0\\
+                f[x_1,...,x_3]  =& \frac{f[x_2,x_3] - f[x_1,x_2]}{x_3-x_1}\\
+                                =& \frac{-.1429-.2857}{28-14} \approx -.03061\\
+            \end{align*}
+        \end{minipage}
+        \begin{align*}
+            &f[x_0,...,x_3]= \frac{f[x_1,...,x_3] - f[x_0,...,x_2]}{x_3-x_0} = \frac{-.03061-0}{28-7} \approx -0.00145\\
+        \end{align*}
+        \begin{equation*}
+            \begin{array}{cccccc}
+                i & x_i & f[x_i]&f[x_i,x_{i+1}] &f[x_i,...,x_{i+2}] &f(x_i,...,x_{i+3})\\\hline
+                0 & 7   & 32    \\
+                  &     &       & .2857\\
+                1 & 14  & 34    &               & 0\\
+                  &     &       & .2857         &                   &-.001458\\
+                2 & 21  & 36    &               & -.03061\\
+                  &     &       & -.1429\\
+                3 & 28  & 35\\
+            \end{array}
+        \end{equation*}
+        \begin{align*}
+            P_i(x)=&f(x_0)+(x-x_0)f[x_0,x_1]+...+(x-x_0)...(x-x_{i-1})f[x_0,...,x_i]\\
+            P_3(x)=&32 + .2857(x-7) - .001458(x-7)(x-14)(x-21)\\
+            =&-0.001458x^3+0.061236x^2-0.500162x+33.000664\\
+            P_3(10)=&\mathbf{32.6646}
+        \end{align*}
+        \newpage
+        \item Find the cubic spline interpolation for the 5th weather station using natural cubic spline algorithm.
+    \end{enumerate}
+    \newpage
+    \item  Write a program to find the Lagrange interpolating polynomials for each of the weather stations. Use the Lagrange interpolating polynomials to estimate the PM 2.5 for each of the weather stations at T = 17.
+    \begin{center}
+        \textbf{Output}
+    \end{center}
+    \begin{verbatim}
+        Weather Station 1 PM 2.5 at T = 17:
+                 P_9(17) = 30.8568
+        Weather Station 2 PM 2.5 at T = 17:
+                 P_9(17) = 33.2584
+        Weather Station 3 PM 2.5 at T = 17:
+                 P_4(17) = 36.6764
+        Weather Station 4 PM 2.5 at T = 17:
+                 P_4(17) = 35.0321
+        Weather Station 5 PM 2.5 at T = 17:
+                 P_4(17) = 33.136
+        Weather Station 6 PM 2.5 at T = 17:
+                 P_4(17) = 38.6764
+    \end{verbatim}
+    \begin{center}
+        \textbf{Source Code at \url{https://git.io/JeW5f}}
+    \end{center}
+    \newpage
+    \item  Write a program that implements Neville's Method and estimate the PM 2.5 for each of the weather stations at T = 12.
+    \begin{center}
+        \textbf{Output}
+    \end{center}
+    \begin{verbatim}
+33         42
+35         41    39.7143
+27         17  -0.142857   -18.2597
+29    30.3333    34.1429         41    49.4657
+32       30.5    30.4524    31.1234    32.5343    34.4156
+35         30    30.3571    30.4048    30.6614    31.2123     31.975
+37       32.5    29.2857    30.1623    30.3182    30.4898    30.7994    31.2226
+39         31    33.5714    28.4286    29.9147    30.1995    30.3654    30.5824    30.8568
+Weather Station 1 PM 2.5 at T = 17 ~= 30.8568
+35       28.5
+30         22    14.5714
+28         22         22    26.9524
+34       35.2    37.0857    38.3429    39.1565
+32         33    33.3143    33.7333    34.0626     34.381
+36       31.2    32.7429    33.0286    33.3306    33.5618    33.7958
+37         33    30.9429    32.5429    32.8204    33.0755    33.2607    33.4469
+40       32.2    33.6857    30.7143    32.4122    32.6915    32.9292     33.095    33.2584
+Weather Station 2 PM 2.5 at T = 17 ~= 33.2584
+36    32.5714
+38    37.1429    36.1633
+40    37.1429    37.1429    36.6764
+Weather Station 3 PM 2.5 at T = 17 ~= 36.6764
+34    34.8571
+36    34.8571    34.8571
+35    36.5714    35.2245    35.0321
+Weather Station 4 PM 2.5 at T = 17 ~= 35.0321
+30       32.8
+33       34.2      34.48
+31       32.2       32.8     33.136
+Weather Station 5 PM 2.5 at T = 17 ~= 33.136
+37         39
+42    38.4286    38.6327
+44    40.5714    38.7347    38.6764
+Weather Station 6 PM 2.5 at T = 17 ~= 38.6764
+    \end{verbatim}
+    \begin{center}
+        \textbf{Source Code at \url{https://git.io/JeWb4}}
+    \end{center}
+	    \item  Write a program that implements Neville's Method and estimate the PM 2.5 for each of the weather stations at T = 12.
+    \begin{center}
+        \textbf{Output}
+    \end{center}
+    \begin{verbatim}
+33         42
+35         41    39.7143
+27         17  -0.142857   -18.2597
+29    30.3333    34.1429         41    49.4657
+32       30.5    30.4524    31.1234    32.5343    34.4156
+35         30    30.3571    30.4048    30.6614    31.2123     31.975
+37       32.5    29.2857    30.1623    30.3182    30.4898    30.7994    31.2226
+39         31    33.5714    28.4286    29.9147    30.1995    30.3654    30.5824    30.8568
+Weather Station 1 PM 2.5 at T = 17 ~= 30.8568
+35       28.5
+30         22    14.5714
+28         22         22    26.9524
+34       35.2    37.0857    38.3429    39.1565
+32         33    33.3143    33.7333    34.0626     34.381
+36       31.2    32.7429    33.0286    33.3306    33.5618    33.7958
+37         33    30.9429    32.5429    32.8204    33.0755    33.2607    33.4469
+40       32.2    33.6857    30.7143    32.4122    32.6915    32.9292     33.095    33.2584
+Weather Station 2 PM 2.5 at T = 17 ~= 33.2584
+36    32.5714
+38    37.1429    36.1633
+40    37.1429    37.1429    36.6764
+Weather Station 3 PM 2.5 at T = 17 ~= 36.6764
+34    34.8571
+36    34.8571    34.8571
+35    36.5714    35.2245    35.0321
+Weather Station 4 PM 2.5 at T = 17 ~= 35.0321
+30       32.8
+33       34.2      34.48
+31       32.2       32.8     33.136
+Weather Station 5 PM 2.5 at T = 17 ~= 33.136
+37         39
+42    38.4286    38.6327
+44    40.5714    38.7347    38.6764
+Weather Station 6 PM 2.5 at T = 17 ~= 38.6764
+    \end{verbatim}
+    \begin{center}
+        \textbf{Source Code at \url{https://git.io/JeWb4}}
+    \end{center}
+\end{enumerate}
+\newpage
+\begin{table}
+    \centering
+    \caption{Particulate Matter}
+    \begin{tabular}{|ccc|}
+        \hline
+        SN & T  & PM \\\hline
+        1  & 1  & 30 \\
+        1  & 5  & 12 \\
+        1  & 8  & 35 \\
+        1  & 12 & 27 \\
+        1  & 15 & 29 \\
+        1  & 19 & 32 \\
+        1  & 22 & 35 \\
+        1  & 26 & 37 \\
+        2  & 2  & 36 \\
+        2  & 4  & 35 \\
+        2  & 9  & 30 \\
+        2  & 11 & 28 \\
+        2  & 16 & 34 \\
+        2  & 18 & 32 \\
+        2  & 23 & 36 \\
+        2  & 25 & 37 \\
+        2  & 30 & 40 \\
+        3  & 6  & 42 \\
+        3  & 13 & 36 \\
+        3  & 20 & 38 \\
+        3  & 27 & 40 \\
+        4  & 7  & 32 \\
+        4  & 14 & 34 \\
+        4  & 21 & 36 \\
+        4  & 28 & 35 \\
+        5  & 5  & 28 \\
+        5  & 10 & 30 \\
+        5  & 15 & 33 \\
+        5  & 20 & 31 \\
+        6  & 8  & 30 \\
+        6  & 15 & 37 \\
+        6  & 22 & 42 \\
+        6  & 29 & 44 \\\hline
+    \end{tabular}
+\end{table}
+\end{document}
