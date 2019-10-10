@@ -2,13 +2,15 @@
  * Author: Katherine Gerot
  * Date: October 9, 2019
  *
- * Lagrange interpolation for weather stations
+ * Neville's method for weather stations
  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 void set(double* x, double* y, int s);
+void zero(double **a, int n);
+
 
 int main(int argc, char **argv) {
 	int n = 4, station = atoi(argv[1]);
@@ -21,19 +23,15 @@ int main(int argc, char **argv) {
 	double x[n], f[n];
 	set(x, f, station);
 	
-	//Lagrange Interpolating Approximation
-	double approx = 0;
-	for(int i = 0; i < n; i++) {
-		double L = 1;
-		for(int j = 0; j < n; j++) {
-			if(j != i)
-				L *= (p-x[j]) / (x[i]-x[j]);
-		}
-		approx += L * f[i];
-	}
+	double **Q;
+	zero(Q, n);
+	
+	//Neville's Method
+	
+	
 	
 	printf("\tWeather Station %d PM 2.5 at T = %g:\n", station, p);
-	printf("\t\t P_%d(%g) = %g\n", n,p, approx);
+	printf("\t\t P_%d(17) = %g\n", n, Q[n-1][n-1]);
 	
 	return 0;
 }
@@ -61,5 +59,17 @@ void set(double* x, double* f, int s) {
 				memcpy(f, f5, sizeof(f5)); break;
 		case 6: memcpy(x, x6, sizeof(x6));
 				memcpy(f, f6, sizeof(f6)); break;
+	}
+}
+
+void zero(double **a, int n) {
+	a = (double**)malloc(n * sizeof(double*));
+	for(int i = 0; i < n; i++) {
+		a[i] = (double*)malloc(n * sizeof(double));
+	}
+	for(int r = 0; r < n; r++) {
+		for(int c = 0; c < n; c++) {
+			a[r][c] = 0;
+		}
 	}
 }
