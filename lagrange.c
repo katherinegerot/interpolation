@@ -31,8 +31,8 @@ int main(int argc, char **argv) {
 		approx += L * f[i];
 	}
 	
-	printf("\tWeather Station %d PM 2.5:\n", station);
-	printf("\t\tat T = %g\t ~ %g\n", p, approx);
+	printf("\tWeather Station %d PM 2.5 at T = %g:\n", station, p);
+	printf("\t\t P_%d(17) = %g\n", n, approx);
 	
 	return 0;
 }
