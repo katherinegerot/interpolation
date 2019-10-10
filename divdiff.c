@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
 		printf("%g ", N[i][0]);
 		for(int j = 1; j <= i; j++) {
 			N[i][j] = (N[i][j-1] - N[i-1][j-1]) / (x[i] - x[i-j]);
-			printf("%12g ", N[i][j]);
+			printf("%8.4lf ", N[i][j]);
 		}			
 		printf("\n");
 	}

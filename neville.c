@@ -35,12 +35,13 @@ int main(int argc, char **argv) {
 	for(int i = 0; i < n; i++) {
 		Q[i][0] = f[i];
 	}
+	printf("%g\n", Q[0][0]);
 	//continuing with approximation
 	for(int i = 1; i < n; i++) {
 		printf("%g ", Q[i][0]);
 		for(int j = 1; j <= i; j++) {
 			Q[i][j] = (((p-x[i-j]) * Q[i][j-1]) - ((p - x[i]) * Q[i-1][j-1]))/(x[i] - x[i-j]);
-			printf("%10g ", Q[i][j]);
+			printf("%8.4lf ", Q[i][j]);
 		}
 		printf("\n");
 	}
